@@ -1,17 +1,19 @@
+from dataclasses import dataclass
+from typing import List
 import sys
 import os
 import openpyxl
 import pandas as pd
+
+
 class CNKIFormatItem(object):
     def __init__(self):
         self.elements = []
 
-from dataclasses import dataclass
-from typing import List
 
 @dataclass
 class Article(object):
-    elements:List[str]
+    elements: List[str]
     # RT:str
     # SR:str
     # A1:str
@@ -29,11 +31,12 @@ class Article(object):
     # LA:str
     # DS:str
 
+
 @dataclass
 class Author(object):
-    name:str
-    articles:List[Article]
-    article_count:int
+    name: str
+    articles: List[Article]
+    article_count: int
 
 
 def format_parser_helper(path, format):
@@ -54,7 +57,8 @@ class SciMetricsAnalyzer(object):
         self.project_path = project_path
         self.articles = []
         self.analyze_source_data()
-        self.authors = {}
+        self.co_authors = {}
+        self.first_authors = {}
 
     def analyze_source_data(self):
         try:
@@ -66,27 +70,35 @@ class SciMetricsAnalyzer(object):
         except Exception as e:
             print(str(e))
 
-
     def analyze_authors(self):
         for article in self.articles:
             try:
                 str_authors = article.elements[2]
                 str_authors_list = str_authors.rstrip(';').split(';')
+                # 将第一作者和其他共同作者区分开
+                # 第一作者处理
+                first_author = str_authors_list[0]
+                if first_author in self.first_authors:
+                    self.first_authors[first_author].articles.append(article)
+                    self.first_authors[first_author].article_count += 1
+                else:
+                    author = Author(first_author, [], 0)
+                    author.articles.append(article)
+                    author.article_count = 1
+                    self.first_authors[first_author] = author
+                
                 for str_author in str_authors_list:
-                    if str_author in self.authors:
-                        self.authors[str_author].articles.append(article)
-                        self.authors[str_author].article_count += 1
+                    if str_author in self.co_authors:
+                        self.co_authors[str_author].articles.append(article)
+                        self.co_authors[str_author].article_count += 1
                     else:
                         author = Author(str_author, [], 0)
                         author.articles.append(article)
                         author.article_count = 1
-                        self.authors[str_author] = author
+                        self.co_authors[str_author] = author
             except Exception as e:
-                print(str(e))
-        # sorted(count_dict.items(), key=lambda x: x[1], reverse=True)
-        # lambda x: expression
-        self.authors = sorted(self.authors.items(), key=lambda x: x[1].article_count, reverse=True)
-        print(self.authors)
+                print(str(e))        
+        # self.first_authors = sorted(self.first_authors.items(), key=lambda x: x[1].article_count, reverse=True)
         print('OK')
         
 
