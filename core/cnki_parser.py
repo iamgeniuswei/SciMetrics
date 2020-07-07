@@ -145,9 +145,9 @@ class CNKIFormatParser(object):
 
 
 # if __name__ == '__main__':
-path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
-analyzer = SciMetricsAnalyzer('CNKI', path, None)
-analyzer.analyze_authors()
+# path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
+# analyzer = SciMetricsAnalyzer('CNKI', path, None)
+# analyzer.analyze_authors()
 
 # authors = {}
 

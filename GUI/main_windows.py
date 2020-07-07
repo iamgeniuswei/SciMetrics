@@ -10,6 +10,7 @@
 import wx
 import wx.xrc
 from GUI.listview import *
+from GUI.project_setting_view import *
 ###########################################################################
 ## Class MainWindow
 ###########################################################################
@@ -25,6 +26,10 @@ class MainWindow ( wx.Frame ):
 
 		self.m_filePicker1 = wx.FilePickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.DefaultSize, wx.FLP_DEFAULT_STYLE )
 		bSizer1.Add( self.m_filePicker1, 0, wx.ALL, 5 )
+
+		setting = ProjectSettingView(self)
+		bSizer1.Add(setting, 1, wx.EXPAND, 5)
+
 		listctrl = MyPanel2(self)
 		bSizer1.Add( listctrl, 1, wx.ALL, 5 )
 

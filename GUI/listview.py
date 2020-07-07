@@ -28,8 +28,8 @@ class MyPanel2 ( wx.Panel ):
 		self.m_panel2 = wx.Panel( self.m_splitter3, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer7 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_dataViewListCtrl1 = wx.dataview.DataViewListCtrl( self.m_panel2, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,200 ), wx.dataview.DV_HORIZ_RULES|wx.dataview.DV_MULTIPLE|wx.dataview.DV_ROW_LINES|wx.dataview.DV_SINGLE )
-		bSizer7.Add( self.m_dataViewListCtrl1, 5, wx.ALL, 5 )
+		self.m_dataViewListCtrl1 = wx.dataview.DataViewListCtrl( self.m_panel2, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.dataview.DV_HORIZ_RULES|wx.dataview.DV_MULTIPLE|wx.dataview.DV_ROW_LINES|wx.dataview.DV_SINGLE )
+		bSizer7.Add( self.m_dataViewListCtrl1, 1, wx.EXPAND, 5 )
 
 
 		self.m_panel2.SetSizer( bSizer7 )
@@ -73,6 +73,6 @@ class MyPanel2 ( wx.Panel ):
 		analyzer = SciMetricsAnalyzer('CNKI', path, None)
 		analyzer.analyze_authors()
 		for key, value in analyzer.first_authors.items():
-			data = [key, key]
+			data = [key, str(value.article_count)]
 			self.m_dataViewListCtrl1.AppendItem(data)
 
