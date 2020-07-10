@@ -155,7 +155,6 @@ class CoAuthorMatrix(object):
 # matplotlib.rcParams['font.sans-serif'] = ['SimHei']
 # matplotlib.rcParams['font.family']='sans-serif'
 # import numpy as np
-# # authors = ['王豫;高凤娟;马可欣;司徒凌云;王林章;陈碧欢;刘杨;赵建华;李宣东;','孙子文;张书国;王林章;', '张蔚瑶;张磊;毛建瓴;许智君;张玉军;','李永成;刘树美;于尧;李爽;李宣东;']
 #
 # path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
 # analyzer = SciMetricsAnalyzer('CNKI', path, None)

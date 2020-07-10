@@ -31,9 +31,10 @@ content = '我爱北京天安门DAG'
 
 print("*****synonyms******")
 import synonyms
+content = '解放军信息工程大学网络空间安全学院'
 syn_seg = synonyms.seg(content)
 print(syn_seg)
 
-sen1 = '中国科学院软件研究所可信计算与信息保障实验室'
-sen2 = '中国科学院国家天文台'
+sen1 = '漏洞挖掘'
+sen2 = '漏洞检测'
 print(synonyms.compare(sen1, sen2, seg=True))

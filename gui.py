@@ -26,22 +26,25 @@ if __name__ == '__main__':
 
    authors = []
    for article in analyzer.articles:
-       author = article.elements[3]
+       author = article.elements[10]
        authors.append(author)
 
    g = nx.Graph()
    matrix = CoMatrix()
    first, co, groups = matrix.build_matrix(authors)
-   # g.add_node('王豫')
+   for key, value in first.items():
+      g.add_node(key, size=value)
    for key in groups.keys():
        author_list = key.split(',')
        g.add_edge(author_list[0], author_list[1])
-
+   pos = nx.circular_layout(g)
+   # nodes = g.nodes()
+   #
    degrees = g.degree()
    degrees = sorted(degrees, key=lambda x: (x[1]), reverse=True)
 
    app = wx.App()
    main_win = CoMatrixView(None)
-   main_win.renderMatrix(degrees)
+   main_win.renderMatrix(degrees, groups)
    main_win.Show()
    app.MainLoop()

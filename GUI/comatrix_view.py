@@ -15,6 +15,16 @@ import wx.dataview
 ## Class CoMatrixView
 ###########################################################################
 
+
+import networkx as nx
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_wxagg import \
+FigureCanvasWxAgg as FigCanvas, \
+NavigationToolbar2WxAgg as NavigationToolbar
+
+
+import synonyms
 class CoMatrixView ( wx.Frame ):
 
 	def __init__( self, parent ):
@@ -38,12 +48,12 @@ class CoMatrixView ( wx.Frame ):
 		self.m_panel1.Layout()
 		bSizer2.Fit( self.m_panel1 )
 		self.m_panel2 = wx.Panel( self.m_splitter1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		bSizer3 = wx.BoxSizer( wx.VERTICAL )
-
-
-		self.m_panel2.SetSizer( bSizer3 )
-		self.m_panel2.Layout()
-		bSizer3.Fit( self.m_panel2 )
+		# bSizer3 = wx.BoxSizer( wx.VERTICAL )
+		#
+		#
+		# self.m_panel2.SetSizer( bSizer3 )
+		# self.m_panel2.Layout()
+		# bSizer3.Fit( self.m_panel2 )
 		self.m_splitter1.SplitVertically( self.m_panel1, self.m_panel2, 292 )
 		bSizer1.Add( self.m_splitter1, 1, wx.EXPAND, 5 )
 
@@ -76,8 +86,51 @@ class CoMatrixView ( wx.Frame ):
 		values = self.m_dataViewListCtrl1.GetStore()
 		print('pause')
 
-	def renderMatrix(self, data):
+	def analyze(self, data):
+		index=0
+		result = {}
+		for item in data:
+			tomerge = item[0]
+			index+=1
+			result[tomerge] = 1
+			for others in data[index:]:
+				to_cmp = others[0]
+				score = synonyms.compare(tomerge, to_cmp, seg=True)
+				if score > 0.5:
+					result[tomerge] += 1
+					print('{}-{}-{}'.format(tomerge, to_cmp, score))
+	def renderMatrix(self, data, groups):
 		for item in data:
 			row = [True, item[0], str(item[1])]
 			self.m_dataViewListCtrl1.AppendItem(row)
+		matplotlib.rcParams['font.sans-serif'] = ['SimHei']
+		matplotlib.rcParams['font.family']='sans-serif'
+		fig = plt.figure()
+		canvas = FigCanvas(self.m_panel2, -1, fig)
+		g = nx.Graph()
+		# g.add_node('王豫')
+		index = 0
+		for key in groups.keys():
+			# if index > 8:
+			# 	break
+			author_list = key.split(',')
+			g.add_edge(author_list[0], author_list[1])
+			index+=1
+
+		pos = nx.spring_layout(g,k=0.15,iterations=20)
+		# edge_labels = dict([((u, v,), g.get_edge_data(u, v)['0']) for u, v in g.edges])
+		# nx.draw_networkx_nodes(g, pos)
+		# nx.draw_networkx_labels(g, pos, labels, font_size=8)
+		# nx.draw_networkx_edge_labels(g, pos, edge_labels=edge_labels)
+		nx.draw(g, pos, with_labels=True)
+		nodes = g.nodes()
+		# plt.figure(3, figsize=(30, 30))
+		# nx.draw(g, with_labels=True)
+		# nx.draw(g, with_labels=True)
+		self.vbox = wx.BoxSizer(wx.VERTICAL)
+		self.vbox.Add(canvas, 1, wx.LEFT | wx.TOP | wx.GROW)
+		self.toolbar = NavigationToolbar(canvas)
+		self.vbox.Add(self.toolbar, 0, wx.EXPAND)
+		self.m_panel2.SetSizer(self.vbox)
+		self.vbox.Fit(self)
 
