@@ -15,10 +15,10 @@ from GUI.gui_sciview import *
 from GUI.gui_listview import *
 from core.cnki_parser import *
 # from core.co_occurance_matrix import *
-# import networkx as nx
-# import matplotlib
-# import matplotlib.pyplot as plt
-# import numpy as np
+import networkx as nx
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 
 import sys
 from PySide2.QtWidgets import *
@@ -28,16 +28,16 @@ from core.article import *
 from core.sci_project import *
 from core.data_cleaning import *
 from GUI.main_window import *
+from pyecharts.charts import Bar
 if __name__ == '__main__':
    # 下面是使用wxPython的固定用法
 
 
-
-   project = SciProject()
-   project.set_configuration()
-   project.get_articles_from_csv()
-   project.get_keywords()
-   project.print_keywords_cooccurance()
+   # project = SciProject()
+   # project.set_configuration()
+   # project.get_articles_from_csv()
+   # project.get_keywords()
+   # project.print_keywords_cooccurance()
    # project.get_institutes()
    # project.print_institutes()
    # project.get_authors()
@@ -58,35 +58,36 @@ if __name__ == '__main__':
 
    # authors = ['王豫;高凤娟;马可欣;司徒凌云;王林章;陈碧欢;刘杨;赵建华;李宣东;','孙子文;张书国;王林章;', '张蔚瑶;张磊;毛建瓴;许智君;张玉军;','李永成;刘树美;于尧;李爽;李宣东;']
 
-   # path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
-   # analyzer = SciMetricsAnalyzer('CNKI', path, None)
-   # analyzer.analyze_articles()
-   # authors_stat = analyzer.analyze_authors()
-   # # headers = ['name', 'freq', 'co']
-   # # data = []
-   # # for key, value in authors_stat.items():
-   # #    item = []
-   # #    try:
-   # #       item.append(key)
-   # #       if 'articleAsFirst' in value:
-   # #          item.append(value['articleAsFirst'])
-   # #       else:
-   # #          item.append(0)
-   # #       if 'articleAsCo' in value:
-   # #          item.append(value['articleAsCo'])
-   # #       else:
-   # #          item.append(0)
-   # #       data.append(item)
-   # #    except Exception as e:
-   # #       print(str(e))
+   path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
+   analyzer = SciMetricsAnalyzer('CNKI', path, None)
+   analyzer.analyze_articles()
+   authors_stat = analyzer.analyze_authors()
+   # headers = ['name', 'freq', 'co']
+   # data = []
+   # for key, value in authors_stat.items():
+   #    item = []
+   #    try:
+   #       item.append(key)
+   #       if 'articleAsFirst' in value:
+   #          item.append(value['articleAsFirst'])
+   #       else:
+   #          item.append(0)
+   #       if 'articleAsCo' in value:
+   #          item.append(value['articleAsCo'])
+   #       else:
+   #          item.append(0)
+   #       data.append(item)
+   #    except Exception as e:
+   #       print(str(e))
+
+   print('OK')
    #
-   # print('OK')
    #
-   #
-   # app = QApplication([])
-   # view = MainWindow()
-   # view.show()
-   # app.exec_()
+   app = QApplication([])
+   view = SciView()
+   view.setData(authors_stat)
+   view.show()
+   app.exec_()
 
    # authors = []
    # for article in analyzer.articles:
