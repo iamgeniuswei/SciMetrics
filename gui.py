@@ -29,6 +29,7 @@ from core.sci_project import *
 from core.data_cleaning import *
 from GUI.main_window import *
 from pyecharts.charts import Bar
+from GUI.gui_main_window import *
 if __name__ == '__main__':
    # 下面是使用wxPython的固定用法
 
@@ -49,69 +50,19 @@ if __name__ == '__main__':
    print('OK')
 
 
-
-
-   # %matplotlib inline
-   # matplotlib.rcParams['font.sans-serif'] = ['SimHei']
-   # matplotlib.rcParams['font.family'] = 'sans-serif'
-
-
    # authors = ['王豫;高凤娟;马可欣;司徒凌云;王林章;陈碧欢;刘杨;赵建华;李宣东;','孙子文;张书国;王林章;', '张蔚瑶;张磊;毛建瓴;许智君;张玉军;','李永成;刘树美;于尧;李爽;李宣东;']
 
-   path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
-   analyzer = SciMetricsAnalyzer('CNKI', path, None)
-   analyzer.analyze_articles()
-   authors_stat = analyzer.analyze_authors()
-   # headers = ['name', 'freq', 'co']
-   # data = []
-   # for key, value in authors_stat.items():
-   #    item = []
-   #    try:
-   #       item.append(key)
-   #       if 'articleAsFirst' in value:
-   #          item.append(value['articleAsFirst'])
-   #       else:
-   #          item.append(0)
-   #       if 'articleAsCo' in value:
-   #          item.append(value['articleAsCo'])
-   #       else:
-   #          item.append(0)
-   #       data.append(item)
-   #    except Exception as e:
-   #       print(str(e))
-
-   print('OK')
-   #
-   #
+   # path = "F:\\002-测试数据\\NewNetworkAttack\\input\\CNKI-637293898682050000.xlsx"
+   # analyzer = SciMetricsAnalyzer('CNKI', path, None)
+   # analyzer.analyze_articles()
+   # authors_stat = analyzer.analyze_authors()
+   # print('OK')
+   # app = QApplication([])
+   # view = SciView()
+   # view.setData(authors_stat)
+   # view.show()
+   # app.exec_()
    app = QApplication([])
-   view = SciView()
-   view.setData(authors_stat)
-   view.show()
+   main_window = GUIMainWindow()
+   main_window.show()
    app.exec_()
-
-   # authors = []
-   # for article in analyzer.articles:
-   #     author = article.elements[10]
-   #     authors.append(author)
-   #
-   # g = nx.Graph()
-   # matrix = CoMatrix()
-   # first, co, groups = matrix.build_matrix(authors)
-   # for key, value in first.items():
-   #    g.add_node(key, size=value)
-   # for key in groups.keys():
-   #     author_list = key.split(',')
-   #     g.add_edge(author_list[0], author_list[1])
-   # pos = nx.circular_layout(g)
-   # # nodes = g.nodes()
-   # #
-   # degrees = g.degree()
-   # degrees = sorted(degrees, key=lambda x: (x[1]), reverse=True)
-
-   # app = wx.App()
-   # main_win = CoMatrixView(None)
-   # main_win.renderMatrix(degrees, groups)
-   # main_win.Show()
-   # app.MainLoop()
-
-   # if __name__ == '__main__':

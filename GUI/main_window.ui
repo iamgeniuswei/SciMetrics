@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>文献计量可视化系统</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -25,12 +25,42 @@
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>工程</string>
+     <string>项目</string>
     </property>
+    <addaction name="action"/>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>数据标准化</string>
+    </property>
+    <addaction name="actionCNKI_XLS_Format"/>
    </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCNKI_XLS_Format">
+   <property name="text">
+    <string>CNKI-XLS Format</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>新建项目</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>打开项目</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>保存项目</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

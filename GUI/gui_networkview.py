@@ -9,6 +9,15 @@ from PySide2.QtGui import *
 import math
 import networkx as nx
 import random
+import math
+
+
+r = 10
+size = 369
+sin_x = math.sin(math.pi/size)
+R = r/sin_x
+print('R is: ')
+print(R)
 
 
 class NetworkController(QWidget):
@@ -30,12 +39,20 @@ class NetworkController(QWidget):
 class NetworkView(QGraphicsView):
     def __init__(self, parent=None):
         super(NetworkView, self).__init__(parent)
+        self.index = 0
         # self.setScene(scene)
 
     def random_pos(self):
         x = random.randint(0, 1920)
         y = random.randint(0, 1080)
         return QPointF(x, y)
+
+
+    def circle_pos(self):
+        x = R*math.cos(self.index*math.pi*2/size)
+        y = R*math.sin(self.index*math.pi*2/size)
+        self.index+=1
+        return QPointF(x,y)
 
     def hide_items(self):
         nodes = self.graph.nodes(data=True)
@@ -50,13 +67,16 @@ class NetworkView(QGraphicsView):
         self.nodes = {}
         self.edges = []
         nodes = self.graph.nodes(data=True)
+        print('节点总数：')
+        print(len(nodes))
         # degrees = sorted(degrees, key=lambda x: (x[1]), reverse=True)
         for node in nodes:
             count = node[1]['first'] + node[1]['co']
-            new_display_node = Node(100*count*10/100)
+            #100*count*10/100
+            new_display_node = Node()
             self.nodes[node[0]] = new_display_node
             self._scene.addItem(new_display_node)
-            new_display_node.setPos(self.random_pos())
+            new_display_node.setPos(self.circle_pos())
         edges = self.graph.edges(data='weight')
         for edge in edges:
             node_start = self.nodes[edge[0]]
@@ -124,7 +144,7 @@ class Node(QGraphicsItem):
         if self._is_highlight:
             painter.setBrush(QBrush(Qt.red))
         else:
-            painter.setBrush(QBrush(QColor(200, 50, 50, 50)))
+            painter.setBrush(QBrush(QColor(200, 250, 50, 80)))
 
         # painter.drawEllipse(QPoint(0, 0), 40, 40)
         # painter.setBrush(Qt.darkGray)
@@ -174,9 +194,14 @@ class Edge(QGraphicsItem):
         dst.add_edge(self)
         self.src_point = None
         self.dst_point = None
+        self.width = 1
         self.adjust()
     def type(self) -> int:
         return QGraphicsItem.UserType+2
+
+    def set_width(self, width):
+        self.width = width
+        self.adjust()
 
     def boundingRect(self) -> PySide2.QtCore.QRectF:
         if self.src is None or self.dst is None:
@@ -203,7 +228,7 @@ class Edge(QGraphicsItem):
             return
         line = QLineF(self.src_point, self.dst_point)
         painter.setRenderHint(QPainter.Antialiasing)
-        painter.setPen(QPen(Qt.lightGray, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+        painter.setPen(QPen(Qt.lightGray, 5, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         painter.drawLine(line)
 
 
